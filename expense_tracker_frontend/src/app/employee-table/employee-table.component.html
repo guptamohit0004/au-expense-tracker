@@ -1,0 +1,119 @@
+<div>
+	<a class="button-register-employee" routerLink="/register-employee">
+		<button mat-button mat-raised-button color="primary">Register New Employee &nbsp;
+			<mat-icon matSuffix>add</mat-icon>
+		</button>
+	</a>
+	<mat-form-field>
+		<mat-label>Filter</mat-label>
+		<input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ex. 1 (employee id)" #input />
+	</mat-form-field>
+	<table mat-table matTableExporter [dataSource]="allExpenses" #exporter="matTableExporter" matSort class="mat-elevation-z8">
+		<ng-container matColumnDef="id">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Employee ID</th>
+			<td mat-cell *matCellDef="let element">{{ element.id }}</td>
+		</ng-container>
+		<ng-container matColumnDef="name">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+			<td mat-cell *matCellDef="let element">{{ element.fname + " " + element.lname | titlecase }}</td>
+		</ng-container>
+		<ng-container matColumnDef="amount">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Total Expenses</th>
+			<td mat-cell *matCellDef="let element">{{ element.netAmount | currency:'INR' }}</td>
+		</ng-container>
+		<ng-container matColumnDef="email">
+			<th mat-header-cell *matHeaderCellDef>Email</th>
+			<td mat-cell *matCellDef="let element">{{ element.email }}</td>
+		</ng-container>
+		<ng-container matColumnDef="add">
+			<th mat-header-cell *matHeaderCellDef>Add Expense</th>
+			<td mat-cell *matCellDef="let element">
+				<a routerLink="/add-expense/{{element.id}}">
+					<button mat-flat-button color="accent">Add Expense
+						<mat-icon matSuffix>add</mat-icon>
+					</button>
+				</a>
+			</td>
+		</ng-container>
+		<ng-container matColumnDef="report">
+			<th mat-header-cell *matHeaderCellDef>View Expense History</th>
+			<td mat-cell *matCellDef="let element">
+				<a routerLink="/reports/{{element.id}}">
+					<button mat-flat-button color="warn">View</button>
+				</a>
+			</td>
+		</ng-container>
+		<ng-container matColumnDef="deleteuser">
+			<th mat-header-cell *matHeaderCellDef>Delete User</th>
+			<td mat-cell *matCellDef="let element">
+				<button mat-flat-button (click)="deleteuser(element.id)" color="warn">Delete User</button>
+			</td>
+			<td mat-footer-cell *matFooterCellDef></td>
+		</ng-container>
+		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+	</table>
+	<mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
+	<div class="export-wrapper">
+		<div class="button-row">
+			<h2>Export Expense Reports :</h2>
+			<button mat-raised-button color="primary" (click)="exporter.exportTable('csv', { fileName: 'Expenses Report' })">CSV (Excel Compatible)</button>
+			<button mat-raised-button color="primary" (click)="exporter.exportTable('xls', { fileName: 'Expenses Report' })">Excel File</button>
+		</div>
+	</div>
+	<h2 class="header">All Employees</h2>
+	<mat-form-field>
+		<mat-label>Filter</mat-label>
+		<input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ex. 1 (employee id)" #input />
+	</mat-form-field>
+	<table mat-table matTableExporter [dataSource]="allUsers" #exporter="matTableExporter" matSort class="mat-elevation-z8">
+		<ng-container matColumnDef="id">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Employee ID</th>
+			<td mat-cell *matCellDef="let element">{{ element.id }}</td>
+		</ng-container>
+		<!-- Name Column -->
+		<ng-container matColumnDef="name">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+			<td mat-cell *matCellDef="let element">{{ element.fname + " " + element.lname | titlecase }}</td>
+		</ng-container>
+		<!-- Weight Column -->
+		<ng-container matColumnDef="amount">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+			<td mat-cell *matCellDef="let element"></td>
+		</ng-container>
+		<!-- Symbol Column -->
+		<ng-container matColumnDef="email">
+			<th mat-header-cell *matHeaderCellDef>Email</th>
+			<td mat-cell *matCellDef="let element">{{ element.email }}</td>
+		</ng-container>
+		<!-- actions -->
+		<ng-container matColumnDef="add">
+			<th mat-header-cell *matHeaderCellDef>Add Expense</th>
+			<td mat-cell *matCellDef="let element">
+				<a routerLink="/add-expense/{{element.id}}">
+					<button mat-flat-button color="accent">Add Expense
+						<mat-icon matSuffix>add</mat-icon>
+					</button>
+				</a>
+			</td>
+		</ng-container>
+		<ng-container matColumnDef="report">
+			<th mat-header-cell *matHeaderCellDef>View Expense History</th>
+			<td mat-cell *matCellDef="let element">
+				<a routerLink="/reports/{{element.id}}">
+					<button mat-flat-button color="warn">View</button>
+				</a>
+			</td>
+		</ng-container>
+		<ng-container matColumnDef="deleteuser">
+			<th mat-header-cell *matHeaderCellDef>Delete User</th>
+			<td mat-cell *matCellDef="let element">
+				<button mat-flat-button (click)="deleteuser(element.id)" color="warn">Delete User</button>
+			</td>
+			<td mat-footer-cell *matFooterCellDef></td>
+		</ng-container>
+		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+	</table>
+	<mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
+</div>

@@ -1,0 +1,16 @@
+h1 {
+  font-size: 5rem;
+}
+.not-found-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+img {
+  width: 20rem;
+  margin-top: 5rem;
+  display: block;
+}

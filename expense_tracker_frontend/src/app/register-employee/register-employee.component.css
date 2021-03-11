@@ -1,0 +1,40 @@
+.login-form-container {
+  display: grid;
+  margin-top: 2rem;
+  place-items: center;
+}
+
+h1 {
+  margin-top: 2rem;
+  font-size: xx-large;
+  text-align: center;
+}
+
+button {
+  display: block;
+  margin: auto;
+}
+
+mat-form-field {
+  width: 30rem;
+  max-width: 40rem;
+  margin: 1rem;
+}
+
+form {
+  padding: 2rem;
+  border: 1px solid;
+  border-radius: 0.2rem;
+  border-color: #e4e4e4;
+  display: flex;
+  flex-direction: column;
+}
+
+.button-register-employee {
+  margin-top: 5rem;
+  display: inline-block;
+}
+
+a {
+  text-decoration:none;
+}

@@ -1,0 +1,55 @@
+div {
+  margin: 5rem;
+}
+table {
+  margin: 0 auto;
+  width: 100%;
+}
+.header {
+  display: flex;
+  font-size: xx-large;
+  justify-content: center;
+}
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+h2 {
+  margin-top: 1rem;
+  display: inline;
+}
+
+button {
+  margin: 0.5rem !important;
+}
+
+.export-wrapper {
+  margin: 0;
+  display: flex;
+  width: max-content;
+}
+
+.button-row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.actions-container {
+  display: flex;
+}
+
+.button-register-employee {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 5rem !important;
+  margin-left: auto;
+  padding: 0;
+  width: 15rem;
+}
+
+a {
+  text-decoration: none;
+}

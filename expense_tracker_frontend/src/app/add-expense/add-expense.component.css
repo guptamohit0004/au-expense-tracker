@@ -1,0 +1,43 @@
+.button-register-employee {
+  margin-right: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: -2rem !important;
+}
+.button-batch-file {
+  margin-right: -1060px;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 3rem !important;
+}
+.login-form-container {
+    display: grid;
+    place-items: center;
+    margin-top: 5rem;
+  }
+  
+  h1 {
+    margin-top: 2rem;
+    font-size: xx-large;
+    text-align: center;
+  }
+  
+  button {
+    display: block;
+    margin: auto;
+  }
+  
+  mat-form-field {
+    width: 20rem;
+    margin-bottom: 2rem;
+    max-width: 25rem;
+  }
+  
+  form {
+    padding: 4rem;
+    border: 1px solid;
+    border-radius: 0.2rem;
+    border-color: #e4e4e4;
+  }
+  

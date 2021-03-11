@@ -1,0 +1,58 @@
+table {
+    width: 100%;
+  }
+  tr.mat-footer-row {
+    font-weight: bold;
+    margin-left: -12px;
+  }
+  .example-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+  }
+  .example-margin {
+    margin-left: 10px;
+  }
+  mat-card {
+  margin-top: 5rem;
+  }
+  .advanced-pie-legend-wrapper .advanced-pie-legend .legend-items-container .legend-items {
+    overflow: initial !important;
+  }
+  .advanced-pie-legend-wrapper .advanced-pie-legend .legend-items-container .legend-items {
+    overflow: initial !important;
+}
+button {
+  margin: 0.5rem !important;
+}
+
+.export-wrapper {
+  margin: 0;
+  display: flex;
+  width: max-content;
+}
+
+.button-row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.actions-container {
+  display: flex;
+}
+td.no-content {
+  padding-top: 7rem;
+}
+
+td.no-content:before {
+  content: attr(data-empty-message);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding: 3rem 0 3rem 0;
+  background-color: white;
+}

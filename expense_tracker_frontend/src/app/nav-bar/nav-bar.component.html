@@ -1,0 +1,25 @@
+<div class="toolbar" role="banner">
+	<a routerLink="/">
+		<mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
+		<h2>Expense Tracker</h2>
+	</a> <span class="example-spacer"></span>
+	<div *ngIf="currentUser?.roles == 'ROLE_USER'">; else elseBlock">
+		<a routerLink="/employee-reports" class="login-button-container">
+			<button class="login-button" mat-raised-button color="primary">Expense Reports</button>
+		</a>
+		<a routerLink="/user-profile" class="login-button-container">
+			<button class="login-button" mat-raised-button color="primary">User Profile</button>
+		</a>
+		<a class="login-button-container">
+			<button (click)="logout()" class="login-button" mat-raised-button color="accent">Logout</button>
+		</a>
+	</div>
+	<div *ngIf="currentUser?.roles == 'ROLE_ADMIN'">
+		<a routerLink="/user-profile" class="login-button-container">
+			<button class="login-button" mat-raised-button color="primary">User Profile</button>
+		</a>
+		<a class="login-button-container">
+			<button (click)="logout()" class="login-button" mat-raised-button color="accent">Logout</button>
+		</a>
+	</div>
+</div>

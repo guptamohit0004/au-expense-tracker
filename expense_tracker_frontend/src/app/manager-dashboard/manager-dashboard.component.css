@@ -1,0 +1,38 @@
+.header {
+  display: flex;
+  margin-top: 8rem;
+  font-size: xx-large;
+  justify-content: center;
+}
+
+.heading {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: rgb(93, 93, 93);
+}
+
+.employee-container {
+  margin-top: 2rem;
+  display: grid;
+  place-items: center;
+}
+mat-card {
+  margin: 1.5rem;
+  display: flex;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+ul {
+  width: -webkit-fill-available;
+}
+
+li,
+a {
+  list-style: none;
+  text-decoration: none;
+}
+
+h3 {
+  margin: 0;
+}

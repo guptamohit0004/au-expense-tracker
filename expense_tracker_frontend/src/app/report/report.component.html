@@ -1,0 +1,146 @@
+<mat-card>
+	<mat-card-content>
+		<h2 class="example-h2">Choose Date Ciretera</h2>
+		<section class="example-section">
+			<mat-radio-group [(ngModel)]="ciretera">
+				<mat-radio-button class="example-margin" value="date">See Report by Date</mat-radio-button>
+				<mat-form-field class="example-margin" *ngIf="ciretera == 'date'" appearance="fill">
+					<mat-label>Enter a date range</mat-label>
+					<mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+						<input matStartDate formControlName="from" placeholder="Start date">
+						<input matEndDate formControlName="to" placeholder="End date">
+					</mat-date-range-input>
+					<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+					<mat-date-range-picker #picker></mat-date-range-picker>
+				</mat-form-field>
+				<br>
+				<br>
+				<br>
+				<mat-radio-button class="example-margin" value="custom">See Report by</mat-radio-button>
+				<mat-form-field style="width: 256px;" class="example-margin" *ngIf="ciretera == 'custom'" appearance="fill">
+					<mat-label>Select an Option</mat-label>
+					<mat-select (selectionChange)="updateDates($event.value)">
+						<mat-option value="today">Today</mat-option>
+						<mat-option value="yesterday">Yesterday</mat-option>
+						<mat-option value="curr_week">Current Week</mat-option>
+						<mat-option value="prev_week">Previous Week</mat-option>
+						<mat-option value="curr_month">Current Month</mat-option>
+						<mat-option value="prev_month">Previous Month</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</mat-radio-group>
+		</section>
+		<br>
+		<br>
+		<br>
+		<button (click)="fetch()" mat-raised-button color="primary">Get Expense Report</button>
+	</mat-card-content>
+</mat-card>
+<br/>
+<br/>
+<div *ngIf="dataSource && dataSource.length>0"class="export-wrapper">
+	<div class="button-row">
+		<h2>Export Expense Reports :</h2>
+		<!-- <button mat-raised-button color="primary" (click)="exporter.exportTable('csv', { fileName: 'Expenses Report' })">CSV</button>
+		<button mat-raised-button color="primary" (click)="exporter.exportTable('xls', { fileName: 'Expenses Report' })">XLS</button> -->
+		<button mat-raised-button color="primary" (click)="generatePDF('download')">Generate PDF</button>
+		<button mat-raised-button color="primary" (click)="generatePDF('email')">Generate and Email PDF</button>
+	</div>
+</div>
+<div *ngIf="dataSource && dataSource.length>0" id="contentToConvert">
+	<br/>
+	<br/>
+	<h2 class="example-h2">Expenses from {{this.dates.from | date:'fullDate'}} to {{this.dates.to | date:'fullDate'}} </h2>
+	<table matTableExporter #exporter="matTableExporter" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+		<ng-container matColumnDef="category">
+			<th mat-header-cell *matHeaderCellDef>Category</th>
+			<td mat-cell *matCellDef="let element">{{element?.category?.categoryName | titlecase}}</td>
+			<td mat-footer-cell *matFooterCellDef></td>
+		</ng-container>
+		<ng-container matColumnDef="date">
+			<th mat-header-cell *matHeaderCellDef>Spent On Date</th>
+			<td mat-cell *matCellDef="let element">{{element.date | date:'fullDate'}}</td>
+			<td mat-footer-cell *matFooterCellDef></td>
+		</ng-container>
+		<ng-container matColumnDef="shop">
+			<th mat-header-cell *matHeaderCellDef>Shop Name</th>
+			<td mat-cell *matCellDef="let element">{{element.shopName | titlecase}}</td>
+			<td mat-footer-cell *matFooterCellDef></td>
+		</ng-container>
+		<ng-container matColumnDef="amount">
+			<th mat-header-cell *matHeaderCellDef>Amount</th>
+			<td mat-cell *matCellDef="let element">{{element.amount | currency:'INR'}}</td>
+			<td style="margin-left: 10px;" mat-footer-cell *matFooterCellDef>Total- {{getTotalCost() | currency:'INR'}}</td>
+		</ng-container>
+		<ng-container matColumnDef="percentage">
+			<th mat-header-cell *matHeaderCellDef>Percentage</th>
+			<td mat-cell *matCellDef="let element">{{element.amount/getTotalCost() | percent }}</td>
+			<td style="margin-left: 10px;" mat-footer-cell *matFooterCellDef></td>
+		</ng-container>
+		<ng-container matColumnDef="delete">
+			<th mat-header-cell *matHeaderCellDef>Delete</th>
+			<td mat-cell *matCellDef="let element">
+				<button mat-flat-button (click)="deleteExpense(element.id)" color="warn">Delete</button>
+			</td>
+			<td mat-footer-cell *matFooterCellDef></td>
+		</ng-container>
+		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+		<tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+	</table>
+	<br/>
+	<br/>
+	<h2 class="example-h2">Category wise expense from {{this.dates.from | date:'fullDate'}} to {{this.dates.to | date:'fullDate'}} </h2>
+	<table *ngIf="selectedDateExpenditurebyCategory" mat-table [dataSource]="selectedDateExpenditurebyCategory" class="mat-elevation-z8">
+		<ng-container matColumnDef="category">
+			<th mat-header-cell *matHeaderCellDef>Category</th>
+			<td mat-cell *matCellDef="let element">{{element?.name | titlecase}}</td>
+			<td mat-footer-cell *matFooterCellDef></td>
+		</ng-container>
+		<ng-container matColumnDef="amount">
+			<th mat-header-cell *matHeaderCellDef>Amount</th>
+			<td mat-cell *matCellDef="let element">{{element.value | currency:'INR'}}</td>
+			<td style="margin-left: 10px;" mat-footer-cell *matFooterCellDef>Total- {{getTotalCost() | currency:'INR'}}</td>
+		</ng-container>
+		<ng-container matColumnDef="percentage">
+			<th mat-header-cell *matHeaderCellDef>Percentage</th>
+			<td mat-cell *matCellDef="let element">{{element.value/getTotalCost() | percent }}</td>
+			<td style="margin-left: 10px;" mat-footer-cell *matFooterCellDef></td>
+		</ng-container>
+		<tr mat-header-row *matHeaderRowDef="displayedColumnsCategory"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumnsCategory;"></tr>
+		<tr mat-footer-row *matFooterRowDef="displayedColumnsCategory"></tr>
+	</table>
+	<br/>
+	<br/>
+	<h2 class="example-h2">Day Wise Expense Graph from {{this.dates.from | date:'fullDate'}} to {{this.dates.to | date:'fullDate'}} </h2>
+	<mat-card *ngIf="selectedDateExpenditure" style="margin-top: 0rem;display: flex;">
+		<mat-card-content>
+			<ngx-charts-bar-vertical [view]="[700,300]" [scheme]="{
+    domain: ['#9370DB', '#87CEFA', '#FA8072', '#FF7F50', '#90EE90', '#9370DB']
+    }" [results]="selectedDateExpenditure" [xAxisLabel]="'Date'" [legendTitle]="'Date of Expense'" [yAxisLabel]="'Expense'" [legend]="true" [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxis]="true" [yAxis]="true"></ngx-charts-bar-vertical>
+		</mat-card-content>
+	</mat-card>
+	<br/>
+	<br/>
+	<h2 class="example-h2">Category Wise Expense Distribution from {{this.dates.from | date:'fullDate'}} to {{this.dates.to | date:'fullDate'}} </h2>
+	<mat-card *ngIf="selectedDateExpenditurebyCategory" style="margin-top: 0rem;display: flex;">
+		<mat-card-content>
+			<ngx-charts-advanced-pie-chart [view]="[700,300]" [results]="selectedDateExpenditurebyCategory"></ngx-charts-advanced-pie-chart>
+		</mat-card-content>
+	</mat-card>
+	<br/>
+	<br/>
+</div>
+<h2 style="margin-top: 50px;
+margin-bottom: 50px; color:red" *ngIf="dataSource && dataSource.length<=0">No Expense Made from {{this.dates.from | date:'fullDate'}} to {{this.dates.to | date:'fullDate'}} </h2>
+<div *ngIf="allExpenses.length>0">
+	<h2 class="example-h2">Total Expenses from {{this.allExpenses[this.allExpenses.length - 1]?.name | date:'fullDate'}} to {{this.allExpenses[0]?.name| date:'fullDate'}} </h2>
+	<mat-card *ngIf="allExpenses" style="margin-top: 0rem;display: flex;">
+		<mat-card-content>
+			<ngx-charts-bar-vertical [view]="[700,300]" [scheme]="{
+  domain: ['#9370DB', '#87CEFA', '#FA8072', '#FF7F50', '#90EE90', '#9370DB']
+  }" [results]="allExpenses" [xAxisLabel]="'Date'" [legendTitle]="'Date of Expense'" [yAxisLabel]="'Expense'" [legend]="true" [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxis]="true" [yAxis]="true"></ngx-charts-bar-vertical>
+		</mat-card-content>
+	</mat-card>
+</div>

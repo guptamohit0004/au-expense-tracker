@@ -1,0 +1,24 @@
+<div class="login-form-container">
+	<h1>Login</h1>
+	<form [formGroup]="myForm">
+		<br />
+		<br />
+		<mat-form-field>
+			<input required matInput type="email" placeholder="Please Enter Email Address" formControlName="email" autocomplete="false" />
+			<mat-hint *ngIf="!emailInput.value">Please Enter Email Address</mat-hint>
+		</mat-form-field>
+		<br />
+		<br />
+		<mat-form-field>
+			<input matInput placeholder="Please Enter Password" [type]="hide ? 'password' : 'text'" formControlName="password" required autocomplete="false" />
+			<mat-icon matSuffix (click)="hide = !hide">{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+			<mat-hint *ngIf="!passwordInput.value">Please Enter Password</mat-hint>
+		</mat-form-field>
+		<br />
+		<br />
+		<button (click)="login()" mat-raised-button color="primary">Login</button>
+		<br/>
+		<br/>
+		<button (click)="forgot()" mat-raised-button color="warn">Forgot Password ?</button>
+	</form>
+</div>

@@ -1,0 +1,42 @@
+<mat-card *ngIf="currentUser?.id" class="login-form-container">
+	<mat-card-content>
+		<div class="ripple-container mat-elevation-z4" matRipple [matRippleCentered]="centered" [matRippleDisabled]="disabled" [matRippleUnbounded]="unbounded" [matRippleRadius]="radius" [matRippleColor]="color">User ID : {{ currentUser.id }}
+			<mat-icon>fingerprint</mat-icon>
+		</div>
+		<div class="ripple-container mat-elevation-z4" matRipple [matRippleCentered]="centered" [matRippleDisabled]="disabled" [matRippleUnbounded]="unbounded" [matRippleRadius]="radius" [matRippleColor]="color">Full Name : {{ currentUser.fname + " " + currentUser.lname | titlecase }}
+			<mat-icon>badge</mat-icon>
+		</div>
+		<div class="ripple-container mat-elevation-z4" matRipple [matRippleCentered]="centered" [matRippleDisabled]="disabled" [matRippleUnbounded]="unbounded" [matRippleRadius]="radius" [matRippleColor]="color">Email : {{ currentUser.email }}
+			<mat-icon>email</mat-icon>
+		</div>
+		<div class="ripple-container mat-elevation-z4" matRipple [matRippleCentered]="centered" [matRippleDisabled]="disabled" [matRippleUnbounded]="unbounded" [matRippleRadius]="radius" [matRippleColor]="color">User Role : {{ currentUser?.role?.roleName | titlecase }}
+			<mat-icon>badge</mat-icon>
+		</div>
+		<button (click)="changePassword()" class="login-button" mat-raised-button color="primary">Change Password</button>
+	</mat-card-content>
+</mat-card>
+<mat-card class="login-form-container" *ngIf="change">
+	<mat-card-content>
+		<div>Change Password
+			<form [formGroup]="myForm">
+				<br />
+				<br />
+				<mat-form-field appearance="fill">
+					<input required matInput type="password" placeholder="Please Enter Current Password" formControlName="currentPassword" autocomplete="false" />
+					<mat-icon matSuffix>lock</mat-icon>
+					<mat-hint *ngIf="!currentPasswordInput.value">Please Enter Current Password</mat-hint>
+				</mat-form-field>
+				<br />
+				<br />
+				<mat-form-field appearance="fill">
+					<input matInput placeholder="Please Enter New Password" type="password" formControlName="newPassword" required autocomplete="false" />
+					<mat-icon matSuffix>lock</mat-icon>
+					<mat-hint *ngIf="!newPasswordInput.value">Please Enter Password</mat-hint>
+				</mat-form-field>
+				<br />
+				<br />
+				<button (click)="updatePassword()" mat-raised-button color="warn">Update Password</button>
+			</form>
+		</div>
+	</mat-card-content>
+</mat-card>
